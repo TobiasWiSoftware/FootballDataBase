@@ -1,0 +1,108 @@
+-- Task: Create a database which can be used to represent a sportsleague like german Bundesliga
+
+-- Create Code for the Football Database
+
+CREATE DATABASE IF NOT EXISTS DBFootball;
+
+USE DBFootball;
+
+CREATE TABLE IF NOT EXISTS TClub
+(
+ClubId INT NOT NULL AUTO_INCREMENT,
+ClubName VARCHAR(50) NOT NULL,
+CeoName VARCHAR(50),
+Street Varchar(50),
+Postal CHAR(5),
+Place VARCHAR(50),
+Established DATE,
+PRIMARY KEY(ClubId)
+);
+
+CREATE TABLE IF NOT EXISTS TPlayer
+(
+PlayerId INT NOT NULL AUTO_INCREMENT,
+FirstName VARCHAR(50),
+LastName VARCHAR(50) NOT NULL,
+BirthDate DATETIME,
+Salory DECIMAL(10,2),
+ClubId INT,
+PRIMARY KEY(PlayerId),
+FOREIGN KEY(ClubId) REFERENCES TClub(ClubId)  
+);
+
+CREATE TABLE IF NOT EXISTS TGame
+(
+GameId INT NOT NULL AUTO_INCREMENT,
+HomeId INT NOT NULL,
+GuestId INT NOT NULL,
+MatchDay INT NOT NULL,
+Season CHAR(9) NOT NULL,
+GoalHome INT,
+GoalGuest INT,
+PRIMARY KEY(GameId),
+FOREIGN KEY(HomeId) REFERENCES TClub(ClubId),
+FOREIGN KEY(GuestId) REFERENCES TClub(ClubId)
+);
+
+CREATE TABLE IF NOT EXISTS TGoal
+(
+GoalId INT NOT NULL,
+ClubId INT NOT NULL,
+GameMinute INT,
+GameId INT NOT NULL,
+Penalty BOOL DEFAULT NULL,
+FreeKick BOOL DEFAULT NULL,
+PRIMARY KEY(GoalId),
+FOREIGN KEY(ClubId) REFERENCES TClub(ClubId),
+FOREIGN key(GameId) REFERENCES TGame(GameId)
+);
+
+CREATE TABLE IF NOT EXISTS TCard
+(
+CardId INT NOT NULL,
+ClubId INT NOT NULL,
+GameMinute INT,
+GameId INT NOT NULL,
+PlayerId INT NOT NULL,
+CardType CHAR(1) NOT NULL,
+PRIMARY KEY(CardId),
+FOREIGN KEY(ClubId) REFERENCES TClub(ClubId),
+FOREIGN KEY(GameId) REFERENCES TGame(GameId),
+FOREIGN KEY(PlayerId) REFERENCES TPlayer(PlayerId),
+CHECK(CardType = 'Y' OR CardType = 'R')
+);
+
+CREATE TABLE IF NOT EXISTS TChange
+(
+ChangeId INT NOT NULL,
+ClubId INT NOT NULL,
+GameMinute INT,
+GameId INT NOT NULL,
+PlayerInId INT NOT NULL,
+PlayerOutId INT NOT NULL,
+PRIMARY KEY(ChangeId),
+FOREIGN KEY (ClubId) REFERENCES TClub(ClubId),
+FOREIGN KEY (GameId) REFERENCES TGame(GameId),
+FOREIGN KEY (PlayerInId) REFERENCES TPlayer(PlayerId),
+FOREIGN KEY (PLayerOutId) REFERENCES TPlayer(PlayerId)
+);
+
+CREATE TABLE IF NOT EXISTS TLeague
+(
+RankId INT NOT NULL,
+ClubId int NOT NULL,
+Points INT NOT NULL,
+GoalRatio INT NOT NULL,
+TotalGames INT,
+PRIMARY KEY(RankId),
+FOREIGN KEY (ClubId) REFERENCES TClub(ClubId)
+);
+
+CREATE TABLE IF NOT EXISTS THelp
+(
+ClubId INT NOT NULL,
+GoalRatio INT DEFAULT 0,
+Points int DEFAULT 0,
+TotalGames INT DEFAULT 0,
+PRIMARY KEY (ClubId)
+);
