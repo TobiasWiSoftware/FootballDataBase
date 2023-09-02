@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS TClub
 (
 ClubId INT NOT NULL AUTO_INCREMENT,
 ClubName VARCHAR(50) NOT NULL,
+ClubOnlineName VARCHAR(50),
 CeoName VARCHAR(50),
 Street Varchar(50),
 Postal CHAR(5),
