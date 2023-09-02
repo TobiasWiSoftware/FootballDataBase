@@ -1,3 +1,3 @@
-Create.sql linguist-language=SQL
-Insert.sql linguist-language=SQL
-Select.sql linguist-language=SQL
+Create.sql linguist-language=ABAP
+Insert.sql linguist-language=ABAP
+Select.sql linguist-language=ABAP
